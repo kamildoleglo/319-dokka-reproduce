@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.9.18-SNAPSHOT")
+    }
+}
+
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.3.21"
+    id "com.jfrog.bintray" version "1.8.4"
+    id "com.github.ben-manes.versions" version "0.20.0"
+    id "com.github.johnrengelman.shadow" version "4.0.3" apply false
+    id "org.sonarqube" version "2.6.2"
+    id "java-library"
+}
+apply plugin: "org.jetbrains.dokka"
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+
+dokka {
+    // suppresses undocumented classes but not dokka warnings
+    // https://github.com/Kotlin/dokka/issues/229 && https://github.com/Kotlin/dokka/issues/319
+    reportUndocumented = false
+    outputFormat = "javadoc"
+    outputDirectory = "$buildDir/javadoc"
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    api "org.jetbrains.kotlin:kotlin-compiler-embeddable"
+}
